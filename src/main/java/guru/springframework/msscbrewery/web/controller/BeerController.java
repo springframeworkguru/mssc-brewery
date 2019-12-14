@@ -1,9 +1,8 @@
 package guru.springframework.msscbrewery.web.controller;
 
-import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.BeerDto;
+import java.net.URI;
+import java.util.UUID;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,13 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.UUID;
+import guru.springframework.msscbrewery.services.BeerService;
+import guru.springframework.msscbrewery.web.model.BeerDto;
 
-/**
- * Created by jt on 2019-04-20.
- */
-@RequestMapping("/api/v1/beer")
+@RequestMapping("/api/v1/beers")
 @RestController
 public class BeerController {
 
@@ -38,11 +36,10 @@ public class BeerController {
     public ResponseEntity<?> save(@RequestBody BeerDto beer) {
     	BeerDto saved = beerService.saveNewBeer(beer);
     	
-    	HttpHeaders headers = new HttpHeaders();
-    	//TODO add hostname to url
-    	headers.add("Location", "/api/v1/beer/" + saved.getId().toString());
+    	URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+    			.path("/{id}").build(saved.getId());
     	
-    	return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    	return ResponseEntity.created(location).build();
     }
 
 }
