@@ -20,9 +20,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 import guru.springframework.msscbrewery.services.CustomerService;
 import guru.springframework.msscbrewery.web.model.Customer;
 
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/${sfg.brewery.api.customer-path}")
 @RestController
 public class CustomerController {
+	
+	@Autowired
+	private ApiProperties properties;
 	
 	@Autowired
 	private CustomerService service;
@@ -38,8 +41,9 @@ public class CustomerController {
 			UriComponentsBuilder builder) {
 		Customer saved = service.createCustomer(customer);
 		
-		URI uri = builder.path("api/v1/customer/{id}")
-				.build(saved.getId());
+		URI uri = builder.path("{customerPath}/{id}").build(false)
+				.expand(properties.getCustomerPath(), saved.getId())
+				.toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
@@ -52,7 +56,7 @@ public class CustomerController {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteCustomer(@PathVariable("id") UUID id) {
+	public void delete(@PathVariable("id") UUID id) {
 		service.removeCustomer(id);
 	}
 
