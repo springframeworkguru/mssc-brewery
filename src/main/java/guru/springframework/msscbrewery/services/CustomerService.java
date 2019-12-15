@@ -23,12 +23,16 @@ public class CustomerService {
 
 	public Customer updateCustomer(UUID id, Customer customer) {
 		Customer oldCustomer = this.getCustomerById(id);
+		
 		oldCustomer.setId(id);
 		oldCustomer.setName(customer.getName());
+		//TODO update customer in database
+		
 		return oldCustomer;
 	}
 
 	public Customer removeCustomer(UUID id) {
+		//TODO delete customer from database
 		return null;
 	}
 

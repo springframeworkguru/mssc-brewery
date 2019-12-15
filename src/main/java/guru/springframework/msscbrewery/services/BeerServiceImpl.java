@@ -1,13 +1,11 @@
 package guru.springframework.msscbrewery.services;
 
-import guru.springframework.msscbrewery.web.model.BeerDto;
-import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
-/**
- * Created by jt on 2019-04-20.
- */
+import org.springframework.stereotype.Service;
+
+import guru.springframework.msscbrewery.web.model.BeerDto;
+
 @Service
 public class BeerServiceImpl implements BeerService {
     
@@ -24,6 +22,25 @@ public class BeerServiceImpl implements BeerService {
 	public BeerDto saveNewBeer(BeerDto beer) {
 		beer.setId(UUID.randomUUID());
 		return beer;
+	}
+
+	@Override
+	public BeerDto updateExistingBeer(UUID beerId, BeerDto beer) {
+		BeerDto oldBeer = this.getBeerById(beerId);
+		
+		oldBeer.setBeerName(beer.getBeerName());
+		oldBeer.setBeerStyle(beer.getBeerStyle());
+		oldBeer.setUpc(beer.getUpc());
+		//TODO update beer in database
+		
+		return oldBeer;
+	}
+
+	@Override
+	public BeerDto deleteBeer(UUID beerId) {
+		BeerDto deletedBeer = this.getBeerById(beerId);
+		//TODO delete beer from database
+		return deletedBeer;
 	}
 	
 }
