@@ -8,8 +8,10 @@ import org.springframework.stereotype.Component;
 
 import guru.springframework.msscbrewery.domain.Beer;
 import guru.springframework.msscbrewery.repository.BeerRepository;
+import lombok.extern.log4j.Log4j2;
 
 @Component
+@Log4j2
 public class BeerLoader implements CommandLineRunner {
 
 	@Autowired
@@ -39,6 +41,8 @@ public class BeerLoader implements CommandLineRunner {
 					.upc(20202L)
 					.price(new BigDecimal(6.75))
 					.build());
+
+			log.debug("Loaded {} Beers into Database", 2);
 		}
 	}
 
