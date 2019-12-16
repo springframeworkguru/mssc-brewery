@@ -1,7 +1,7 @@
 package guru.springframework.msscbrewery.domain;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -29,7 +29,7 @@ public class Beer {
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+	@Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
 	private UUID id;
 
 	@Version
@@ -37,15 +37,14 @@ public class Beer {
 
 	@CreationTimestamp
 	@Column(updatable = false)
-	private Timestamp createdDate;
+	private LocalDateTime createdDate;
 
 	@UpdateTimestamp
-	private Timestamp lastModifiedDate;
+	private LocalDateTime lastModifiedDate;
 
 	private String beerName;
 	private String beerStyle;
 
-	@Column(unique = true)
 	private Long upc;
 	private BigDecimal price;
 
