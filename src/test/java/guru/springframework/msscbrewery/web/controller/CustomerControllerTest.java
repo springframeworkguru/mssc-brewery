@@ -15,8 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import guru.springframework.msscbrewery.domain.Customer;
 import guru.springframework.msscbrewery.services.CustomerService;
-import guru.springframework.msscbrewery.web.model.Customer;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CustomerController.class)

@@ -14,4 +14,9 @@ public class ApplicationExceptionHandler {
 		return ResponseEntity.noContent().build();
 	}
 
+	@ExceptionHandler(value = IllegalArgumentException.class)
+	public ResponseEntity<?> exception(IllegalArgumentException ex) {
+		return ResponseEntity.badRequest().body(ex.getLocalizedMessage());
+	}
+
 }

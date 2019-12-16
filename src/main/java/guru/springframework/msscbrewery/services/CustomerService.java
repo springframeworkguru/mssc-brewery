@@ -1,39 +1,58 @@
 package guru.springframework.msscbrewery.services;
 
+import java.util.Collection;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
-import guru.springframework.msscbrewery.web.model.Customer;
+import guru.springframework.msscbrewery.domain.Customer;
+import guru.springframework.msscbrewery.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
 
+	@Autowired
+	private CustomerRepository repository;
+
 	public Customer getCustomerById(UUID id) {
-		return Customer.builder()
-				.id(UUID.randomUUID())
-				.name("Pernilongo do Agreste")
-				.build();
+		return repository.findById(id).orElseThrow();
 	}
 
-	public Customer createCustomer(Customer customer) {
-		customer.setId(UUID.randomUUID());
-		return customer;
+	public UUID createCustomer(Customer customer) {
+		Assert.isNull(customer.getId(), "Customer Id shall not be passed! It must be generated automatically.");
+
+		repository.save(customer);
+
+		return customer.getId();
 	}
 
-	public Customer updateCustomer(UUID id, Customer customer) {
-		Customer oldCustomer = this.getCustomerById(id);
-		
-		oldCustomer.setId(id);
-		oldCustomer.setName(customer.getName());
-		//TODO update customer in database
-		
-		return oldCustomer;
+	public void updateCustomer(UUID id, Customer customer) {
+		Assert.notNull(id, "CustomerId shall not be null!");
+
+		Customer existingOne = repository.findById(id).orElseThrow();
+
+		BeanUtils.copyProperties(customer, existingOne, "id", "createdDate", "version", "updatedDate");
+
+		repository.save(existingOne);
 	}
 
-	public Customer removeCustomer(UUID id) {
-		//TODO delete customer from database
-		return null;
+	public void removeCustomer(UUID id) {
+		repository.deleteById(id);
+	}
+
+	public Collection<Customer> list() {
+		return (Collection<Customer>) repository.findAll();
+
+	}
+
+	public Page<Customer> findPaginated(int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		return repository.findAll(pageRequest);
 	}
 
 }
