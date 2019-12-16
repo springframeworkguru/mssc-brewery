@@ -1,6 +1,7 @@
 package guru.springframework.msscbrewery.web.controller;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import guru.springframework.msscbrewery.domain.Beer;
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 
@@ -23,39 +25,46 @@ import guru.springframework.msscbrewery.web.model.BeerDto;
 @RestController
 public class BeerController {
 
-    private final BeerService beerService;
+	private final BeerService beerService;
 
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
+	public BeerController(BeerService beerService) {
+		this.beerService = beerService;
+	}
 
-    @GetMapping({"/{beerId}"})
-    public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId){
-    	BeerDto beer = beerService.getBeerById(beerId);
-        
-    	return ResponseEntity.ok(beer);
-    }
-    
-    @PostMapping
-    public ResponseEntity<?> saveBeer(@RequestBody BeerDto beer) {
-    	BeerDto saved = beerService.saveNewBeer(beer);
-    	
-    	URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-    			.path("/{id}").build(saved.getId());
-    	
-    	return ResponseEntity.created(location).build();
-    }
-    
-    @PutMapping("/{beerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateBeer(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beer) {
-    	beerService.updateExistingBeer(beerId, beer);
-    }
-    
-    @DeleteMapping("/{beerId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBeer(@PathVariable("beerId") UUID beerId) {
-    	beerService.deleteBeer(beerId);
-    }
+	@GetMapping
+	public ResponseEntity<Collection<Beer>> list() {
+		return ResponseEntity.ok(beerService.list());
+	}
+
+	@GetMapping({
+			"/{beerId}"
+	})
+	public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
+		BeerDto beer = beerService.getBeerById(beerId);
+
+		return ResponseEntity.ok(beer);
+	}
+
+	@PostMapping
+	public ResponseEntity<?> saveBeer(@RequestBody BeerDto beer) {
+		BeerDto saved = beerService.saveNewBeer(beer);
+
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").build(saved.getId());
+
+		return ResponseEntity.created(location).build();
+	}
+
+	@PutMapping("/{beerId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateBeer(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beer) {
+		beerService.updateExistingBeer(beerId, beer);
+	}
+
+	@DeleteMapping("/{beerId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deleteBeer(@PathVariable("beerId") UUID beerId) {
+		beerService.deleteBeer(beerId);
+	}
 
 }
