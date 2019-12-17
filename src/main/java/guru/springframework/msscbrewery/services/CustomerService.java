@@ -1,6 +1,5 @@
 package guru.springframework.msscbrewery.services;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -45,14 +44,14 @@ public class CustomerService {
 		repository.deleteById(id);
 	}
 
-	public Collection<Customer> list() {
-		return (Collection<Customer>) repository.findAll();
-
-	}
-
-	public Page<Customer> findPaginated(int page, int size) {
+	public Page<Customer> listPaginated(int page, int size) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		return repository.findAll(pageRequest);
+	}
+
+	public Page<Customer> findCustomerByNamePaginated(int page, int size, String name) {
+		PageRequest pageRequest = PageRequest.of(page, size);
+		return repository.findByNameContains(name, pageRequest);
 	}
 
 }
