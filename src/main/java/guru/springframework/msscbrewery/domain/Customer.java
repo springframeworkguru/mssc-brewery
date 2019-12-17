@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,6 +42,7 @@ public class Customer {
 	@UpdateTimestamp
 	private LocalDateTime updatedDate;
 
+	@NotNull
 	private String name;
 
 }

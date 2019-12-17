@@ -3,10 +3,13 @@ package guru.springframework.msscbrewery.web.controller;
 import java.net.URI;
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +38,14 @@ public class CustomerController {
 	@GetMapping
 	public Page<Customer> findPaginated(
 			@RequestParam(name = "page", required = false, defaultValue = "0") int page,
-			@RequestParam(name = "size", required = false, defaultValue = "${spring.data.web.pageable.default-page-size}") int size) {
-		return service.findPaginated(page, size);
+			@RequestParam(name = "size", required = false, defaultValue = "${spring.data.web.pageable.default-page-size}") int size,
+			@RequestParam(name = "name", required = false) String name) {
+
+		if (StringUtils.hasText(name)) {
+			return service.findCustomerByNamePaginated(page, size, name);
+		}
+
+		return service.listPaginated(page, size);
 	}
 
 	@GetMapping("/{id}")
@@ -46,7 +55,7 @@ public class CustomerController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> save(@RequestBody Customer customer,
+	public ResponseEntity<?> save(@Valid @RequestBody Customer customer,
 			UriComponentsBuilder builder) {
 		UUID newId = service.createCustomer(customer);
 
@@ -59,7 +68,7 @@ public class CustomerController {
 
 	@PutMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void update(@PathVariable("id") UUID id, @RequestBody Customer customer) {
+	public void update(@PathVariable("id") UUID id, @Valid @RequestBody Customer customer) {
 		service.updateCustomer(id, customer);
 	}
 
