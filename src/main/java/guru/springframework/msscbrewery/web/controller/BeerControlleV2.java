@@ -5,9 +5,11 @@ import java.util.Collection;
 import java.util.UUID;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +25,14 @@ import guru.springframework.msscbrewery.domain.Beer;
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 
-@Deprecated(forRemoval = true)
-@RequestMapping("/api/v1/beers")
+@Validated
+@RequestMapping("/api/v2/beers")
 @RestController
-public class BeerController {
+public class BeerControlleV2 {
 
 	private final BeerService beerService;
 
-	public BeerController(BeerService beerService) {
+	public BeerControlleV2(BeerService beerService) {
 		this.beerService = beerService;
 	}
 
@@ -42,7 +44,7 @@ public class BeerController {
 	@GetMapping({
 			"/{beerId}"
 	})
-	public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
+	public ResponseEntity<BeerDto> getBeer(@NotNull @PathVariable("beerId") UUID beerId) {
 		BeerDto beer = beerService.getBeerById(beerId);
 
 		return ResponseEntity.ok(beer);
