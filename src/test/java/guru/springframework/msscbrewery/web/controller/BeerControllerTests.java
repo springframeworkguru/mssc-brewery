@@ -1,6 +1,7 @@
 package guru.springframework.msscbrewery.web.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.json.JacksonTester;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -41,6 +43,25 @@ public class BeerControllerTests {
 	@Test
 	public void getBeersByMockMvc() throws Exception {
 		mockMvc.perform(get("/api/v2/beers")).andExpect(status().isOk());
+	}
+
+	@Test
+	public void postBeerTest() throws Exception {
+		// given
+		BeerDto dto = BeerDto.builder()
+				.beerName("postBeer")
+				.beerStyle("PIELSEN")
+				.quantityToBrew(200)
+				.minOnHand(10)
+				.build();
+
+		// when
+		mockMvc.perform(post("/api/v2/beers")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jsonBeer.write(dto).getJson()))
+				// then
+				.andExpect(status().isCreated())
+				.andReturn().getResponse().containsHeader("Location");
 	}
 
 }
