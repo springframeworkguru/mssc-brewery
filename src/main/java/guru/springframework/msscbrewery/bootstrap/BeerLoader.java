@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import guru.springframework.msscbrewery.domain.Beer;
 import guru.springframework.msscbrewery.repository.BeerRepository;
+import guru.springframework.msscbrewery.web.model.Beer;
+import guru.springframework.msscbrewery.web.model.BeerStyleEnum;
 import lombok.extern.log4j.Log4j2;
 
 @Component
@@ -26,7 +27,7 @@ public class BeerLoader implements CommandLineRunner {
 		if (beerRepository.count() == 0) {
 			beerRepository.save(Beer.builder()
 					.beerName("Jimbo's Ale")
-					.beerStyle("Double IPA")
+					.beerStyle(BeerStyleEnum.PIELSEN)
 					.quantityToBrew(200)
 					.minOnHand(12)
 					.upc(10101L)
@@ -35,7 +36,7 @@ public class BeerLoader implements CommandLineRunner {
 
 			beerRepository.save(Beer.builder()
 					.beerName("Igarapé Amazônico")
-					.beerStyle("Pale ALE")
+					.beerStyle(BeerStyleEnum.PURO_MALTE)
 					.quantityToBrew(100)
 					.minOnHand(6)
 					.upc(20202L)

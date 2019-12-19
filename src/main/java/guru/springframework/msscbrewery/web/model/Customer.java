@@ -1,6 +1,5 @@
-package guru.springframework.msscbrewery.domain;
+package guru.springframework.msscbrewery.web.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -9,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,16 +21,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @Entity
-public class Beer {
+public class Customer {
 
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-	@Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
+	@Column(updatable = false, nullable = false)
 	private UUID id;
 
 	@Version
@@ -37,18 +38,13 @@ public class Beer {
 
 	@CreationTimestamp
 	@Column(updatable = false)
-	private LocalDateTime createdDate;
+	private LocalDateTime createDate;
 
 	@UpdateTimestamp
-	private LocalDateTime lastModifiedDate;
+	private LocalDateTime updatedDate;
 
-	private String beerName;
-	private String beerStyle;
-
-	private Long upc;
-	private BigDecimal price;
-
-	private Integer minOnHand;
-	private Integer quantityToBrew;
+	@NotNull
+	@Size(min = 3, max = 100)
+	private String name;
 
 }

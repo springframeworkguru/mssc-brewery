@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import guru.springframework.msscbrewery.domain.Customer;
 import guru.springframework.msscbrewery.repository.CustomerRepository;
+import guru.springframework.msscbrewery.web.model.Customer;
 import lombok.extern.log4j.Log4j2;
 
 @Component

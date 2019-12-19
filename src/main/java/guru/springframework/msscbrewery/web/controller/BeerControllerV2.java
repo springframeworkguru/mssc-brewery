@@ -21,18 +21,18 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import guru.springframework.msscbrewery.domain.Beer;
 import guru.springframework.msscbrewery.services.BeerService;
+import guru.springframework.msscbrewery.web.model.Beer;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 
 @Validated
 @RequestMapping("/api/v2/beers")
 @RestController
-public class BeerControlleV2 {
+public class BeerControllerV2 {
 
 	private final BeerService beerService;
 
-	public BeerControlleV2(BeerService beerService) {
+	public BeerControllerV2(BeerService beerService) {
 		this.beerService = beerService;
 	}
 
@@ -52,10 +52,10 @@ public class BeerControlleV2 {
 
 	@PostMapping
 	public ResponseEntity<?> saveBeer(@Valid @RequestBody BeerDto beer) {
-		BeerDto saved = beerService.saveNewBeer(beer);
+		UUID id = beerService.saveNewBeer(beer);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").build(saved.getId());
+				.path("/{id}").build(id);
 
 		return ResponseEntity.created(location).build();
 	}
