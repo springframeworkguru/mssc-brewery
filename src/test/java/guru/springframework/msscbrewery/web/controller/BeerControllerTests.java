@@ -2,7 +2,10 @@ package guru.springframework.msscbrewery.web.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,20 +52,39 @@ public class BeerControllerTests {
 	@Test
 	public void postBeerTest() throws Exception {
 		// given
-		BeerDto dto = BeerDto.builder()
+		String validBeerJson = jsonBeer.write(this.givenValidBeerDto()).getJson();
+
+		// when
+		mockMvc.perform(post("/api/v2/beers")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(validBeerJson))
+				// then
+				.andExpect(status().isCreated())
+				.andReturn().getResponse().containsHeader("Location");
+	}
+
+	@Test
+	public void putBeerTest() throws Exception {
+		// given
+		String validBeerJson = jsonBeer.write(this.givenValidBeerDto()).getJson();
+
+		// when
+		ResultActions result = mockMvc.perform(put("/api/v2/beers/{id}", UUID.randomUUID())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(validBeerJson));
+
+		// then
+		result.andExpect(status().isNoContent())
+				.andReturn().getResponse();
+	}
+
+	private BeerDto givenValidBeerDto() {
+		return BeerDto.builder()
 				.beerName("postBeer")
 				.beerStyle("PIELSEN")
 				.quantityToBrew(200)
 				.minOnHand(10)
 				.build();
-
-		// when
-		mockMvc.perform(post("/api/v2/beers")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(jsonBeer.write(dto).getJson()))
-				// then
-				.andExpect(status().isCreated())
-				.andReturn().getResponse().containsHeader("Location");
 	}
 
 }
