@@ -21,12 +21,18 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import guru.springframework.msscbrewery.repository.BeerRepository;
-import guru.springframework.msscbrewery.services.BeerServiceImpl;
 import guru.springframework.msscbrewery.web.mapper.BeerMapper;
 import guru.springframework.msscbrewery.web.model.Beer;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 import guru.springframework.msscbrewery.web.model.BeerStyleEnum;
 
+/**
+ * This class runs Unit Tests against BeerService. 
+ * Application context is not loaded.
+ * 
+ * @author Bruno
+ *
+ */
 @ExtendWith(MockitoExtension.class)
 public class BeerServiceTests {
 
