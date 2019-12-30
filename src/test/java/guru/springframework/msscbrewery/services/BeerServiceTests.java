@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
