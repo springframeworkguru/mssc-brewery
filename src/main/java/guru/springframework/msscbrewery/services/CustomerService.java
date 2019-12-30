@@ -1,5 +1,6 @@
 package guru.springframework.msscbrewery.services;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
@@ -23,7 +24,8 @@ public class CustomerService {
 	}
 
 	public UUID createCustomer(Customer customer) {
-		Assert.isNull(customer.getId(), "Customer Id shall not be passed! It must be generated automatically.");
+		Assert.isNull(customer.getId(),
+				"Customer Id shall not be passed! It must be generated automatically.");
 
 		repository.save(customer);
 
@@ -35,7 +37,15 @@ public class CustomerService {
 
 		Customer existingOne = repository.findById(id).orElseThrow();
 
-		BeanUtils.copyProperties(customer, existingOne, "id", "createdDate", "version", "updatedDate");
+		if (existingOne == null) {
+			throw new NoSuchElementException();
+		}
+		if (existingOne.getId() != id) {
+			throw new IllegalArgumentException();
+		}
+
+		BeanUtils.copyProperties(customer, existingOne, "id", "createdDate",
+				"version", "updatedDate");
 
 		repository.save(existingOne);
 	}
@@ -49,7 +59,8 @@ public class CustomerService {
 		return repository.findAll(pageRequest);
 	}
 
-	public Page<Customer> findCustomerByNamePaginated(int page, int size, String name) {
+	public Page<Customer> findCustomerByNamePaginated(int page, int size,
+			String name) {
 		PageRequest pageRequest = PageRequest.of(page, size);
 		return repository.findByNameContains(name, pageRequest);
 	}

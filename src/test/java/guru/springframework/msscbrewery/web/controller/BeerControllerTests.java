@@ -1,5 +1,7 @@
 package guru.springframework.msscbrewery.web.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -25,18 +27,17 @@ import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 
 @ExtendWith(MockitoExtension.class)
-//@SpringBootTest
+// @SpringBootTest
 public class BeerControllerTests {
 
 	private MockMvc mockMvc;
+	private JacksonTester<BeerDto> jsonBeer;
 
 	@Mock
 	private BeerService service;
 
 	@InjectMocks
 	private BeerControllerV2 beerController;
-
-	private JacksonTester<BeerDto> jsonBeer;
 
 	@BeforeEach
 	private void setUp() {
@@ -50,9 +51,21 @@ public class BeerControllerTests {
 	}
 
 	@Test
+	void getBeerByIdMockMvc() {
+		UUID beerId = UUID.randomUUID();
+		BeerDto beer = givenValidBeerDto();
+
+		when(service.getBeerById(beerId)).thenReturn(beer);
+
+		BeerDto dto = beerController.getBeer(beerId);
+		assertEquals(beer, dto);
+	}
+
+	@Test
 	public void postBeerTest() throws Exception {
 		// given
-		String validBeerJson = jsonBeer.write(this.givenValidBeerDto()).getJson();
+		String validBeerJson = jsonBeer.write(this.givenValidBeerDto())
+				.getJson();
 
 		// when
 		mockMvc.perform(post("/api/v2/beers")
@@ -66,12 +79,14 @@ public class BeerControllerTests {
 	@Test
 	public void putBeerTest() throws Exception {
 		// given
-		String validBeerJson = jsonBeer.write(this.givenValidBeerDto()).getJson();
+		String validBeerJson = jsonBeer.write(this.givenValidBeerDto())
+				.getJson();
 
 		// when
-		ResultActions result = mockMvc.perform(put("/api/v2/beers/{id}", UUID.randomUUID())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(validBeerJson));
+		ResultActions result = mockMvc
+				.perform(put("/api/v2/beers/{id}", UUID.randomUUID())
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(validBeerJson));
 
 		// then
 		result.andExpect(status().isNoContent())
