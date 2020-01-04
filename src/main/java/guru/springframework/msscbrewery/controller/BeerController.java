@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.controller;
 
 import java.net.URI;
 import java.util.Collection;
@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import guru.springframework.msscbrewery.model.BeerDto;
 import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerDto;
 
 @Deprecated(forRemoval = true)
 @RequestMapping("/api/v1/beers")
@@ -35,14 +34,15 @@ public class BeerController {
 	}
 
 	@GetMapping
-	public ResponseEntity<Collection<Beer>> list() {
+	public ResponseEntity<Collection<BeerDto>> list() {
 		return ResponseEntity.ok(beerService.list());
 	}
 
 	@GetMapping({
 			"/{beerId}"
 	})
-	public ResponseEntity<BeerDto> getBeer(@PathVariable("beerId") UUID beerId) {
+	public ResponseEntity<BeerDto> getBeer(
+			@PathVariable("beerId") UUID beerId) {
 		BeerDto beer = beerService.getBeerById(beerId);
 
 		return ResponseEntity.ok(beer);
@@ -60,7 +60,8 @@ public class BeerController {
 
 	@PutMapping("/{beerId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void updateBeer(@PathVariable("beerId") UUID beerId, @Valid @RequestBody BeerDto beer) {
+	public void updateBeer(@PathVariable("beerId") UUID beerId,
+			@Valid @RequestBody BeerDto beer) {
 		beerService.updateExistingBeer(beerId, beer);
 	}
 

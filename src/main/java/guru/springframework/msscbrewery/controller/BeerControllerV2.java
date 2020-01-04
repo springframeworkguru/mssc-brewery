@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.controller;
 
 import java.net.URI;
 import java.util.Collection;
@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import guru.springframework.msscbrewery.model.BeerDto;
 import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerDto;
 
 @Validated
 @RequestMapping("/api/v2/beers")
@@ -37,8 +36,9 @@ public class BeerControllerV2 {
 	}
 
 	@GetMapping
-	public ResponseEntity<Collection<Beer>> list() {
-		return ResponseEntity.ok(beerService.list());
+	@ResponseStatus(HttpStatus.OK)
+	public Collection<BeerDto> list() {
+		return beerService.list();
 	}
 
 	@GetMapping({"/{beerId}"})

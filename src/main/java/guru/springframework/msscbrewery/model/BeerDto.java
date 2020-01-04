@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.model;
+package guru.springframework.msscbrewery.model;
 
 import java.math.BigDecimal;
 import java.util.UUID;

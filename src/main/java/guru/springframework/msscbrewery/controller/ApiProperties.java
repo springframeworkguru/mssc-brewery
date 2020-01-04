@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.controller;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;

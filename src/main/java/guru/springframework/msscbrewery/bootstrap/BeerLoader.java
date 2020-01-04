@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import guru.springframework.msscbrewery.model.Beer;
+import guru.springframework.msscbrewery.model.BeerStyleEnum;
 import guru.springframework.msscbrewery.repository.BeerRepository;
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerStyleEnum;
 import lombok.extern.log4j.Log4j2;
 
 @Component

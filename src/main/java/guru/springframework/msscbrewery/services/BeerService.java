@@ -3,8 +3,7 @@ package guru.springframework.msscbrewery.services;
 import java.util.Collection;
 import java.util.UUID;
 
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.model.BeerDto;
 
 public interface BeerService {
 
@@ -16,6 +15,6 @@ public interface BeerService {
 
 	void deleteBeer(UUID beerId);
 
-	Collection<Beer> list();
+	Collection<BeerDto> list();
 
 }

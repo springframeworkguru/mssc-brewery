@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerDto;
-import guru.springframework.msscbrewery.web.model.BeerStyleEnum;
+import guru.springframework.msscbrewery.model.Beer;
+import guru.springframework.msscbrewery.model.BeerDto;
+import guru.springframework.msscbrewery.model.BeerStyleEnum;
 
 class BeerTest {
 

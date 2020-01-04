@@ -1,10 +1,10 @@
-package guru.springframework.msscbrewery.web.mapper;
+package guru.springframework.msscbrewery.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 
-import guru.springframework.msscbrewery.web.model.Beer;
-import guru.springframework.msscbrewery.web.model.BeerDto;
+import guru.springframework.msscbrewery.model.Beer;
+import guru.springframework.msscbrewery.model.BeerDto;
 
 public class BeerMapper {
 

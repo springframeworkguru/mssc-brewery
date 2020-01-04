@@ -10,8 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import guru.springframework.msscbrewery.model.Customer;
 import guru.springframework.msscbrewery.repository.CustomerRepository;
-import guru.springframework.msscbrewery.web.model.Customer;
 
 @Service
 public class CustomerService {

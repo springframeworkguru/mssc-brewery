@@ -1,4 +1,4 @@
-package guru.springframework.msscbrewery.web.controller;
+package guru.springframework.msscbrewery.controller;
 
 import static org.hamcrest.CoreMatchers.endsWith;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,8 +26,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import guru.springframework.msscbrewery.controller.BeerControllerV2;
+import guru.springframework.msscbrewery.model.BeerDto;
 import guru.springframework.msscbrewery.services.BeerService;
-import guru.springframework.msscbrewery.web.model.BeerDto;
 
 /**
  * This class runs Unit Tests against BeerController. Application context is not
