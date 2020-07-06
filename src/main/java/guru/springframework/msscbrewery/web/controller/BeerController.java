@@ -29,7 +29,7 @@ public class BeerController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpHeaders> handlePost(BeerDto beerDto) {
+    public ResponseEntity<HttpHeaders> handlePost(@RequestBody  BeerDto beerDto) {
         BeerDto savedBeer = beerService.save(beerDto);
 
         HttpHeaders headers = new HttpHeaders();
@@ -39,10 +39,16 @@ public class BeerController {
     }
 
     @PutMapping({"/{beerId}"})
-    public ResponseEntity<Void> handlePut(@PathVariable("beerId") UUID beerId, BeerDto beerDto) {
+    public ResponseEntity<Void> handlePut(@PathVariable("beerId") UUID beerId, @RequestBody BeerDto beerDto) {
         beerService.updateBeer(beerId, beerDto);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping({"/{beerId}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBeer(@PathVariable("beerId") UUID beerId) {
+        beerService.deleteBeer(beerId);
     }
 
 }
