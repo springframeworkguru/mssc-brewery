@@ -140,3 +140,4 @@ Desktop.ini
 .eslintcache
 /.idea/
 
+/target/
