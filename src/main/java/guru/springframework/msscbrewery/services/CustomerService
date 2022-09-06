@@ -1,0 +1,11 @@
+import java.util.UUID;
+
+import com.example.demo.DTO.Customer;
+
+public interface CustomerService {
+
+	Customer getCustomerById(UUID id);
+
+	
+
+}
