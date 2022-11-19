@@ -1,5 +1,5 @@
 package guru.springframework.msscbrewery.web.controller;
-
+import org.slf4j.Logger;
 import guru.springframework.msscbrewery.services.BeerService;
 import guru.springframework.msscbrewery.web.model.BeerDto;
 import org.springframework.http.HttpHeaders;
@@ -40,11 +40,18 @@ public class BeerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
     @PutMapping({"/{beerId}"})
-    public ResponseEntity hundleUpdate(@PathVariable("beerId")UUID beerId ,BeerDto beerDto){
+    public ResponseEntity UpdateBeer(@PathVariable("beerId")UUID beerId ,BeerDto beerDto){
         beerService.updateBeer(beerId,beerDto);
             beerService.updateBeer(beerId, beerDto);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
 
+
+    }
+
+    @DeleteMapping({"/{beerId}"})
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBeer(@PathVariable("beerId") UUID beerId){
+        beerService.deleteById(beerId);
 
     }
 }
