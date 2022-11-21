@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface CustomerService {
 
-    ResponseEntity<CustomerDto> getCustomer(UUID customerId);
+    CustomerDto getCustomer(UUID customerId);
 }

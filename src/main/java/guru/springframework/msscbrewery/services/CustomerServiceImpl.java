@@ -11,10 +11,10 @@ import java.util.UUID;
 public class CustomerServiceImpl implements CustomerService {
 
     @Override
-    public ResponseEntity<CustomerDto> getCustomer(UUID customerId) {
-        return new ResponseEntity<>(CustomerDto.builder()
+    public CustomerDto getCustomer(UUID customerId) {
+        return CustomerDto.builder()
                 .id(customerId)
                 .name("Moustafa")
-                .build(), HttpStatus.OK);
+                .build();
     }
 }
