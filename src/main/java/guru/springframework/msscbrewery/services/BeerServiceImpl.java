@@ -34,4 +34,3 @@ public class BeerServiceImpl implements BeerService {
     }
     //test 22222
 }
-// new
