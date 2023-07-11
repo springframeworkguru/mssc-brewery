@@ -6,6 +6,7 @@ import com.springframework.guru.msscbrewery.web.model.CustomerDto;
 import java.util.UUID;
 
 public interface CustomerService {
+    //Master changes
     CustomerDto getCustomerByID(UUID id);
 
     CustomerDto saveCustomer(CustomerDto custDto);

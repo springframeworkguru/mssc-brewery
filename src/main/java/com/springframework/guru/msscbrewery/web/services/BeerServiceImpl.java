@@ -9,6 +9,7 @@ import java.util.UUID;
 public class BeerServiceImpl implements BeerService{
     @Override
     public BeerDto getBeerById(UUID id) {
+        //Master changes
         return BeerDto.builder().id(id).
                 beerName("Galaxy Beer")
                 .beerStyle("Pale Ale")
